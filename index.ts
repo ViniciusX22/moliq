@@ -19,7 +19,7 @@ H2O+O2
 
 Sua resposta deve conter 4 linhas:
   1) a fórmula molecular do resultado da reação, no mesmo formato da entrada;
-  2) O nome da molécula/substância gerada;
+  2) O nome da molécula/substância gerada (sem descrições ou adendos);
   3) Uma descrição de no máximo 150 caracteres da molécula;
   4) Um emoji unicode representando a molécula.
 
