@@ -84,6 +84,7 @@ async function getReaction(formula: string): Promise<ReactionResult | null> {
       return result;
     } else {
       console.log("No message content: ", response.choices[0].message.content);
+      console.log("Response: ", response);
       return null;
     }
   } catch (err) {
@@ -101,6 +102,9 @@ app.get<"/", {}, {}, {}, ReactionQuery>(
   async (req: Request<{}, {}, {}, ReactionQuery>, res: Response) => {
     try {
       const formula = req.query.q;
+
+      console.log(`Received formula "${formula}"`);
+
       if (!formula) {
         res.status(400).json({ message: "Fórmula inválida." });
         return;
