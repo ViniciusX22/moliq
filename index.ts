@@ -11,20 +11,35 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const systemPrompt = `Você é um sistema utilizado para auxiliar no aprendizado de química. Irei te informar um conjunto de átomos e/ou moléculas e você deverá me dizer qual será o resultado dessa reação química, sob as condições mais comuns que esses componentes são encontrados, a não ser quando eu especificar as condições.
+
+O formato da entrada que eu darei será uma única linha contendo uma fórmula. Por exemplo, para juntar uma molécula de água com uma molécula de oxigênio, a entrada será assim:
+
+H2O+O2
+
+Sua resposta deve conter 4 linhas:
+  1) a fórmula molecular do resultado da reação, no mesmo formato da entrada;
+  2) O nome da molécula/substância gerada;
+  3) Uma descrição de no máximo 150 caracteres da molécula;
+  4) Um emoji unicode representando a molécula.
+
+Não numere as linhas, mantenha a resposta apenas com o conteúdo indicado. Caso não haja reação, retorne apenas "null".`;
+
 function parseContent(content: string) {
   if (!content || content === "null") return null;
 
-  const [formula, name, description] = content
+  const [formula, name, description, emoji] = content
     .split("\n")
     .map((line) => line.trim());
 
-  return { formula, name, description };
+  return { formula, name, description, emoji };
 }
 
 type ReactionResult = {
   formula: string;
   name: string;
   description: string;
+  emoji: string;
 };
 
 async function getReaction(formula: string): Promise<ReactionResult | null> {
@@ -39,7 +54,7 @@ async function getReaction(formula: string): Promise<ReactionResult | null> {
           content: [
             {
               type: "text",
-              text: 'Você é um sistema utilizado para auxiliar no aprendizado de química. Irei te informar um conjunto de átomos e/ou moléculas e você deverá me dizer qual será o resultado dessa reação química, sob as condições mais comuns que esses componentes são encontrados, a não ser quando eu especificar as condições.\n\nO formato da entrada que eu darei será uma única linha contendo uma fórmula. Por exemplo, para juntar uma molécula de água com uma molécula de oxigênio, a entrada será assim:\n\nH2O+O2\n\nSua resposta deve conter 3 linhas: 1) a fórmula molecular do resultado da reação, no mesmo formato da entrada; 2) O nome da molécula/substância gerada; 3) Uma descrição de no máximo 150 caracteres da molécula. Não numere as linhas, mantenha a resposta apenas com o conteúdo indicado. Caso não haja reação, retorne apenas "null".',
+              text: systemPrompt,
             },
           ],
         },
