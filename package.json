@@ -1,0 +1,23 @@
+{
+  "name": "moliq",
+  "version": "1.0.0",
+  "description": "Chemistry with AI",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "watch": "nodemon index.ts",
+    "vercel-build": "echo hi"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.5.4",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "openai": "^4.58.1"
+  }
+}
